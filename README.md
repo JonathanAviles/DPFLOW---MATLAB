@@ -1,2 +1,2 @@
 # DPFLOW---MATLAB
-Unbalanced power flow calculator for distribution networks, implemented using MATLAB
+Unbalanced Power Flow Calculator for Distribution Networks, implemented using MATLAB
