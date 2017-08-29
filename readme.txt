@@ -1,4 +1,7 @@
-Please, copy all the files in this repository in the same folder and run the script dpflow as follows:
+# DPFLOW---MATLAB
+Unbalanced Power Flow Calculator for Distribution Networks, implemented using MATLAB
+
+Please, copy all files from this repository to the same folder and run the function 'dpflow' as follows:
 
 outputVariables = dpflow(distCase_test13nodes);
 
