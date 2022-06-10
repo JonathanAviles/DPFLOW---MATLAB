@@ -179,6 +179,6 @@ function outputObject = dpflow(caseObject)
     fprintf('____________________________________\n');
     fprintf('Total elapsed time : %.4f seconds\n\n',etime(t4,t1));
     
-    fprintf('Results saved to file distCaseResults');
+    fprintf('Results saved to file distCaseResults\n');
     
 end % End of function
