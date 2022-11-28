@@ -18,6 +18,9 @@
 %
 %   objectCase.baseMVA: It refers to single-phase base power in MVA.
 %
+%   caseObject.p_sc:  MW max power for every phase  this is a big add on in the program
+%   caseObject.P_max: MW max power for phase
+%
 %   objectCase.bus: Bus data
 %       1   bID: Identifier (Positive integer)
 %       2   type
