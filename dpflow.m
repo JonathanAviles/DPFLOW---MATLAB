@@ -8,7 +8,7 @@ function outputObject = dpflow(caseObject)
         ~, ~, ~, ~, ~, ~, ~] = lineBranchIndexer;
 
     %% 
-    [baseMVA, bus, gen, yload, dload, lineBranch, trafoBranch] = loadDistCase(caseObject);
+    [baseMVA, P_sc, P_max, bus, gen, yload, dload, lineBranch, trafoBranch] = loadDistCase(caseObject);
 
     %Number of elements
     nnodes = size(bus,1);
