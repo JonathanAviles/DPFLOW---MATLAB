@@ -168,6 +168,7 @@ function outputObject = dpflow(caseObject)
         outputObject.branchInfo(:,9:11)   = threePhaseArray(real(Sloss));
         outputObject.branchInfo(:,12:14) = threePhaseArray(imag(Sloss));
     end 
+    outputObject.Ypr=Ypr;
     
     %% Save results to file
     saveDistCaseResults(outputObject);

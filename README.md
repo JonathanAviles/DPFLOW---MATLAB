@@ -6,3 +6,9 @@ Please, copy all files from this repository to the same folder and run the funct
 outputVariables = dpflow(distCase_test13nodes);
 
 All output info will be available in the structure outputVariables and some of the fields will also be saved to file distCaseResults.m
+
+## to do
+- [ ] modify the input function
+- [ ] create lib folder and example folder
+- [ ] add the main function with renaming it
+- [ ] add the p function with renaming it 
