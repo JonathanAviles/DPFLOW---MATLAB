@@ -64,9 +64,17 @@ function outputObject = dpflow(caseObject)
     %%
     %global res
     %global iter
+    if caseObject.options(1,1)==1 %option flag to show the output 
     options=optimoptions('fsolve','TolFun',1E-10,'FiniteDifferenceType',...
     'central','MaxFunEvals',200000,'Display','iter','MaxIter',1000,...
     'Jacobian','on','OutputFcn',@resfun);
+    end
+    if caseObject.options(1,1)==0 %option flag to show the output
+    options=optimoptions('fsolve','TolFun',1E-10,'FiniteDifferenceType',...
+    'central','MaxFunEvals',200000,'Display','off','MaxIter',1000,...
+    'Jacobian','on','OutputFcn',@resfun);
+    end 
+
     xsol = fsolve(@loadsol,x0,options);
         function [diff,J]=loadsol(x)
             V_ang(pv)=x(1:length(pv));
@@ -102,6 +110,7 @@ function outputObject = dpflow(caseObject)
                 otherwise
                     stop=0;
             end
+            outputObject.itrano=max(optimValues.iteration);
         end
 
     %% Output format             
@@ -171,15 +180,18 @@ function outputObject = dpflow(caseObject)
     outputObject.Ypr=Ypr;
     
     %% Save results to file
-    saveDistCaseResults(outputObject);
     t4 = clock;
+    if caseObject.options(1,1)==1
     fprintf('Time elapsed per stage:\n')
     fprintf('Data preparation   : %.4f seconds\n',etime(t2,t1));
     fprintf('Nonlinear solver   : %.4f seconds\n',etime(t3,t2));
     fprintf('Saving to file     : %.4f seconds\n',etime(t4,t3));
     fprintf('____________________________________\n');
     fprintf('Total elapsed time : %.4f seconds\n\n',etime(t4,t1));
+    end 
     
+    if caseObject.options(1,3)==1
+    saveDistCaseResults(outputObject);
     fprintf('Results saved to file distCaseResults\n');
-    
+    end 
 end % End of function
