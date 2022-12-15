@@ -22,3 +22,9 @@ to run the dpflow you should identify it before
 - [ ] add the main function with renaming it
 - [ ] add the p function with renaming it 
 - [ ] add Carlson equation to the toolbox 
+
+
+## function to add
+
+- [ ] lsatbus() in the IEEE13 
+- [ ] 
