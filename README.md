@@ -17,11 +17,11 @@ to run the dpflow you should identify it before
         '-end' );
 
 ## to do
-- [ ] modify the input function
-- [ ] create lib folder and example folder
-- [ ] add the main function with renaming it
-- [ ] add the p function with renaming it 
-- [ ] add Carlson equation to the toolbox 
+- [x] modify the input function
+- [x] create lib folder and example folder
+- [x] add the main function with renaming it
+- [x] add the p function with renaming it 
+- [x] add Carlson equation to the toolbox 
 
 
 ## function to add
