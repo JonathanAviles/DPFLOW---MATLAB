@@ -29,7 +29,7 @@ function [eff,system_losses_mt,losses_N_mt,system_losses_mtn,K_uN,busresult,bran
     end
         %% efficiency of the device
     system_losses_mtn=system_losses_mt+losses_N_mt;
-    P_total=yload(1,2)+yload(1,3)+yload(1,4);
+    P_total=sum(sum(distCase.yload(:,[2:4,8:10,14:16])))+sum(sum(distCase.dload(:,[2:4,8:10,14:16])));
     eff=(P_total*1e6)/(P_total*1e6+system_losses_mtn)*100;
     busresult=Result.busInfo;
     branch=Result.branchInfo;
