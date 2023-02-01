@@ -22,7 +22,7 @@
 %   caseObject.P_max: MW max power for phase
 % load flow options this is a flag functions to control the behavior of the load flow functions
 %caseObject.options=[A B C]
-%A is a Boolean value to control the output of the load flow function is it 1 will displays the time  in dpflow 
+%A is a Boolean value to control the output of the load flow function is it 1 will displays the time in dpflow 
 %B is a Boolean value to control if the load flow stop after 30 iterations or not  this is affecting pout function
 %C is a Boolean value to control if if the results is saved in external file  or not in dpflow
 %caseObject.options=[0 0 0];

@@ -9,7 +9,7 @@ function [eff,v_3p,K_uN,p_loss_total,q_loss_total,I3_A3,itrano]=dpflow_ex(distCa
     Result = dpflow(distCase);
     %% the power losses
     [p_loss,q_loss]=loss_p_q(Result.branchInfo);
-    I3_A3=current_lf(Result.branchInfo)
+    I3_A3=current_lf(Result.branchInfo);
     p_loss_total=sum(sum(p_loss(:,(3:5))));   %% G1
     q_loss_total=sum(sum(q_loss(:,(3:5))));  
     %% the voltage profile
