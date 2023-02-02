@@ -1,4 +1,4 @@
-function [eff,v_3p,K_uN,p_loss_total,q_loss_total,I3_A3,itrano]=dpflow_ex(distCase)
+function [eff,v_3p,v_3a,K_uN,p_loss_total,q_loss_total,I3_A3,itrano]=dpflow_ex(distCase)
     %% adding dpflow so i can use all functions
     % this function to determine the unbalancing ratio losses TL eff for specific system 
     % the inputs is 
@@ -14,6 +14,8 @@ function [eff,v_3p,K_uN,p_loss_total,q_loss_total,I3_A3,itrano]=dpflow_ex(distCa
     q_loss_total=sum(sum(q_loss(:,(3:5))));  
     %% the voltage profile
     v_3p=Result.busInfo(:,2:4)-1; 
+    %% the voltage profile
+    v_3a=Result.busInfo(:,5:7); 
     %% the unbalancing_Ratio
     for id_bus=1:length(Result.busInfo(:,1)) 
             K_uN(id_bus)=unbalancing_Ratio(Result,id_bus);
