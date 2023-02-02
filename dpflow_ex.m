@@ -10,14 +10,12 @@ function [eff,v_3p,K_uN,p_loss_total,q_loss_total,I3_A3,itrano]=dpflow_ex(distCa
     %% the power losses
     [p_loss,q_loss]=loss_p_q(Result.branchInfo);
     I3_A3=current_lf(Result.branchInfo);
-    p_loss_total=sum(sum(p_loss(:,(3:5))));   %% G1
+    p_loss_total=sum(sum(p_loss(:,(3:5))));   
     q_loss_total=sum(sum(q_loss(:,(3:5))));  
     %% the voltage profile
-    v_3p=Result.busInfo(:,2:4)-1; %%G2 voltage profile in three phases
-    %% the voltage profile
-    v_3p=Result.busInfo(:,2:4)-1; %%G2 voltage profile in three phases
+    v_3p=Result.busInfo(:,2:4)-1; 
     %% the unbalancing_Ratio
-    for id_bus=1:length(Result.busInfo(:,1)) %% G3
+    for id_bus=1:length(Result.busInfo(:,1)) 
             K_uN(id_bus)=unbalancing_Ratio(Result,id_bus);
     end
     %% efficiency of the TL system 
