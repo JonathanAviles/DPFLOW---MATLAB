@@ -201,7 +201,7 @@ function [Ybus, Ypr] = YMaker(nnodes, yload, dload, lineBranch, trafoBranch, bas
     end
     
     Ybus    = sparse(Ybus_rows,Ybus_cols,Ybus_vals,3*nnodes,3*nnodes);
-    
+   %% sparse is used to reduce the momery used by the MATLAB so you can inverse it by full(Ybus) 
     Ypr1    = sparse(Ypr1_rows,Ypr1_cols,Ypr1_vals,3*nline,3*nline);
     Ypr2    = sparse(3*nline,6*ntrafo);
     Ypr3    = sparse(6*ntrafo,3*nline);
