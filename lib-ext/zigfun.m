@@ -1,4 +1,4 @@
-function yload=zigfun(zig,Vlg_pu,Ypr,Ybus,yload,yload_busid,index,branch_index,baseMVA);
+function yload=zigfun(zig,Vlg,Ibus,yload,yload_busid,index);
 %zigmfun < this function is to modify the yload matrix to inculde the zigzag transformer the paper will be added at the end>
 %
 % 
@@ -11,30 +11,48 @@ function yload=zigfun(zig,Vlg_pu,Ypr,Ybus,yload,yload_busid,index,branch_index,b
 
 % Author(s): <Ahmed M. Elkholy>
 % Copyright <2023> <A.M.Elkholy>
+switch 1
+case 1
+    %%% find the
+    [row,~] = find(index==zig);
+    [row_yload,~] = find(yload_busid==zig);
+    row=row';
+    row_yload=row_yload';
+    %% after calculation 
+    Ibus_mat=threePhaseArray(Ibus);
+    % Ibranch_mat=threePhaseArray(Ibranch_pu);
+    Vbus_mat=threePhaseArray(Vlg);
+    % i_index=[index,Ibus_mat]
+    % v_index=[index,vbus_mat]
+    i=1;
+    for zig_mo=row
+        I_zig_ph=sum(Ibus_mat(zig_mo,:))/3;
+        s_zig=(Vbus_mat(zig_mo,:).*conj(I_zig_ph))/1e6;
+        yload(row_yload(i),2)=yload(row_yload(i),2)-real(s_zig(1));
+        yload(row_yload(i),2)=yload(row_yload(i),3)-real(s_zig(2));
+        yload(row_yload(i),4)=yload(row_yload(i),4)-real(s_zig(3));
+        yload(row_yload(i),5)=yload(row_yload(i),5)-imag(s_zig(1));
+        yload(row_yload(i),6)=yload(row_yload(i),6)-imag(s_zig(2));
+        yload(row_yload(i),7)=yload(row_yload(i),7)-imag(s_zig(3));
+        i=i+1;
+    end
+case 2
+    Ibus_mat=threePhaseArray(Ibus);
+    % Ibranch_mat=threePhaseArray(Ibranch_pu);
+    Vbus_mat=threePhaseArray(Vlg);
+    I3ph_675=Ibus_mat(13,:);
+    v3ph_675=Vbus_mat(13,:);
+    % v3ph_675=abs2real(Result,13,'v').*(2.4017771198e3);
 
-%%% find the
-[row,~] = find(index==zig);
-[row_yload,~] = find(yload_busid==zig);
-row=row';
-row_yload=row_yload';
-%% after calculation 
-% Ibranch_pu = Ypr * Vbranch_pu;
-Ibus_pu  = Ybus * Vlg_pu;
-Ibus_mat=threePhaseArray(Ibus_pu);
-% Ibranch_mat=threePhaseArray(Ibranch_pu);
-Vbus_mat=threePhaseArray(Vlg_pu);
-% [index, Ibus_mat];
-% [branch_index,Ibranch_mat];
-i=1;
-for zig_mo=row
-    I_zig_ph=sum(Ibus_mat(zig_mo,:))/3
-    s_zig=(Vbus_mat(zig_mo,:).*conj(I_zig_ph)).*baseMVA
-    yload(row_yload(i),2)=yload(row_yload(i),2)-real(s_zig(1));
-    yload(row_yload(i),2)=yload(row_yload(i),3)-real(s_zig(2));
-    yload(row_yload(i),4)=yload(row_yload(i),4)-real(s_zig(3));
-    yload(row_yload(i),5)=yload(row_yload(i),5)-imag(s_zig(1));
-    yload(row_yload(i),6)=yload(row_yload(i),6)-imag(s_zig(2));
-    yload(row_yload(i),7)=yload(row_yload(i),7)-imag(s_zig(3));
-    i=i+1;
-end
+    I_zig_675=sum(I3ph_675)/3;
+    s_zig_675=(v3ph_675.*conj(I_zig_675))/ (1e6)
+    nox=-1;
+    yload(4,2)=yload(4,2)+nox*real(s_zig_675(1));
+    yload(4,3)=yload(4,3)+nox*real(s_zig_675(2));
+    yload(4,4)=yload(4,4)+nox*real(s_zig_675(3));
+    yload(4,5)=yload(4,5)+nox*imag(s_zig_675(1));
+    yload(4,6)=yload(4,6)+nox*imag(s_zig_675(2));
+    yload(4,7)=yload(4,7)+nox*imag(s_zig_675(3));
+
+
 end

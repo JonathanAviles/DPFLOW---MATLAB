@@ -24,6 +24,15 @@ function outputObject = dpflow_mod(caseObject)
             trafoLink(2*n  ,:) = [-n,caseObject.trafoBranch(n,TBUS)];
         end
         links = [caseObject.lineBranch(:,FBUS:TBUS);trafoLink];
+        numbr = size(links,1);
+        Ibr_base = zeros(3*numbr,1);
+        for n=1:size(links,1)
+            if(links(n,1)~=-1)
+                Ibr_base(3*n-2:3*n) = baseMVA*1e3./caseObject.bus(caseObject.bus(:,BID)==links(n,1),BASEKV);
+            else
+                Ibr_base(3*n-2:3*n) = baseMVA*1e3./caseObject.bus(caseObject.bus(:,BID)==links(n,2),BASEKV);
+            end
+        end
     end
     %% Indexing
     ext2intID = zeros(nnodes,1);
@@ -77,7 +86,7 @@ function outputObject = dpflow_mod(caseObject)
     'central','MaxFunEvals',200000,'Display','off','MaxIter',1000,...
     'Jacobian','on','OutputFcn',@resfun);
     end 
-
+i=0;
     xsol = fsolve(@loadsol,x0,options);
         function [diff,J]=loadsol(x)
             [Swye, Sdelta, Iwye, Idelta]= Sbus_creation(baseMVA, gen, yload, dload ,nnodes);
@@ -103,12 +112,24 @@ function outputObject = dpflow_mod(caseObject)
 
             J = [   j11 j12;
                     j21 j22;    ];
+                    i=i+1;
+            if i>4 
             if ~isempty(zig)
                 V_ang(pv)=x(1:length(pv));
                 V_ang(pq)=x(length(pv)+1:length([pv;pq]));
                 V_mag(pq)=x(length(pv)+length(pq)+1:length(x));
                 Vlg_pu = V_mag.*exp(1i*V_ang);
-                yload=zigfun(zig,Vlg_pu,Ypr,Ybus,yload,yload_busid,index,links,baseMVA);
+                baseVoltages = tripleVector(caseObject.bus(:,BASEKV));
+                Ibase    = baseMVA*1e3./baseVoltages;
+                Ibus_pu  = Ybus * Vlg_pu;
+                Vlg = Vlg_pu.*1e3.*baseVoltages;
+                Ibus     = Ibase.*Ibus_pu;
+                Vbranch_pu = Conn * Vlg_pu;
+                Ibranch_pu = Ypr * Vbranch_pu;
+                Ibranch = Ibranch_pu .*Ibr_base;
+                % [links threePhaseArray(Ibranch)]
+                yload=zigfun(zig,Vlg,Ibranch,yload,yload_busid,index)
+            end
             end
         end
         function stop=resfun(~,optimValues,state)
@@ -160,23 +181,10 @@ function outputObject = dpflow_mod(caseObject)
     outputObject.busInfo(:,20:22) = threePhaseArray(imag(Sbus_MVA));
       
     if nnodes<=1000
-
-
-        numbr = size(links,1);
-        Ibr_base = zeros(3*numbr,1);
-        for n=1:size(links,1)
-            if(links(n,1)~=-1)
-                Ibr_base(3*n-2:3*n) = baseMVA*1e3./caseObject.bus(caseObject.bus(:,BID)==links(n,1),BASEKV);
-            else
-                Ibr_base(3*n-2:3*n) = baseMVA*1e3./caseObject.bus(caseObject.bus(:,BID)==links(n,2),BASEKV);
-            end
-        end
-
         Vbranch_pu = Conn * Vlg_pu;
         Ibranch_pu = Ypr * Vbranch_pu;
         Ibranch = Ibranch_pu .*Ibr_base;
         Sloss = 1e3 * baseMVA * Vbranch_pu .* conj(Ibranch_pu); %kVA
-        
         %% Branch quantities
         outputObject.branchInfo = zeros(numbr,14);
         outputObject.branchInfo(:,1:2)   = links;
@@ -186,7 +194,6 @@ function outputObject = dpflow_mod(caseObject)
         outputObject.branchInfo(:,12:14) = threePhaseArray(imag(Sloss));
     end 
     outputObject.Ypr=Ypr;
-    
     %% Save results to file
     t4 = clock;
     if caseObject.options(1,1)==1
