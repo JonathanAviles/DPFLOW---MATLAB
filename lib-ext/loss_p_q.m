@@ -8,7 +8,7 @@ function [p_loss,q_loss]=loss_p_q(branchInfo)
 
 %% active power losses 
 [n_row,n_col]=size(branchInfo);
-branchInfo([n_row-1:n_row],:)=[];
+% branchInfo([n_row-1:n_row],:)=[];
 branch_1=branchInfo;
 branch_1(:,[3:8])=[];
 branch_1(:,[6:8])=[];
