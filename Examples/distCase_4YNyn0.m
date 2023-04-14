@@ -5,8 +5,12 @@ function caseObject = distCase_4YNyn0
 %   transformer, YNyn0 connection.
 %   Please see distributionCaseFormat.m for details on the case file format
 
+caseObject.options=[1 1 1];
 %%  Single phase base power
 caseObject.baseMVA = 2.0000000000;
+caseObject.P_sc=00;  %mw 
+%% max power for every phase  this is a big add on in the program
+caseObject.P_max=00; %mw
 
 %%  Bus data:
 %{

@@ -6,6 +6,10 @@ function caseObject = distCase_test13nodes
 
 %%  Single phase base power
 caseObject.baseMVA = 0.1666666667;
+caseObject.options=[1 1 1];
+caseObject.P_sc=00;  %mw 
+%% max power for every phase  this is a big add on in the program
+caseObject.P_max=00; %mw
 
 %%  Bus data:
 %{

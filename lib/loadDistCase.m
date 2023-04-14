@@ -1,4 +1,4 @@
-function [baseMVA, bus, gen, yload, dload, lineBranch, trafoBranch] = loadDistCase(distCase)
+function [baseMVA, P_sc, P_max, bus, gen, yload, dload, lineBranch, trafoBranch,neutral] = loadDistCase(distCase)
 
     if ischar(distCase)
         [pathstr, fname, ext] = fileparts(distCase);
@@ -44,7 +44,7 @@ function [baseMVA, bus, gen, yload, dload, lineBranch, trafoBranch] = loadDistCa
         end
     end
     
-    [baseMVA, bus, gen, yload, dload, lineBranch, trafoBranch] =...
-        deal(caseObject.baseMVA, caseObject.bus, caseObject.gen, caseObject.yload,...
-        caseObject.dload, caseObject.lineBranch, caseObject.trafoBranch);
+    [baseMVA, P_sc, P_max, bus, gen, yload, dload, lineBranch, trafoBranch,neutral] =...
+        deal(caseObject.baseMVA, caseObject.P_sc, caseObject.P_max, caseObject.bus, caseObject.gen, caseObject.yload,...
+        caseObject.dload, caseObject.lineBranch, caseObject.trafoBranch, caseObject.neutral);
 end
